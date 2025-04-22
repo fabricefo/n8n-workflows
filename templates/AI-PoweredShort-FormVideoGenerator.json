@@ -1,26 +1,19 @@
 {
-    "id": "aqLL3BAXqQIjeJDt",
+    "id": "KY0vB3hifSrA24k2",
     "meta": {
-      "instanceId": "dce6d05169adc9f802863a06c3edb9925b178c4fce2360953cce9c1b509705cc",
-      "templateCredsSetupCompleted": true
+      "instanceId": "3378b0d68c3b7ebfc71b79896d94e1a044dec38e99a1160aed4e9c323910fbe2",
+      "templateId": "3121"
     },
-    "name": "AI Automated TikTok/Youtube Shorts/Reels Generator",
-    "tags": [
-      {
-        "id": "meqQhJqB377UiY3s",
-        "name": "template",
-        "createdAt": "2025-03-10T07:30:05.424Z",
-        "updatedAt": "2025-03-10T07:30:05.424Z"
-      }
-    ],
+    "name": "AI-Powered Short-Form Video Generator with OpenAI, Flux, Kling, and ElevenLabs and upload to all social networks",
+    "tags": [],
     "nodes": [
       {
         "id": "e5095169-dc78-4d90-9662-04cfc82c38d9",
         "name": "Get image",
         "type": "n8n-nodes-base.httpRequest",
         "position": [
-          220,
-          40
+          1160,
+          480
         ],
         "parameters": {
           "url": "=https://api.piapi.ai/api/v1/task/{{ $json.data.task_id }}",
@@ -42,8 +35,8 @@
         "name": "Generate Image",
         "type": "n8n-nodes-base.httpRequest",
         "position": [
-          -60,
-          40
+          880,
+          480
         ],
         "parameters": {
           "url": "https://api.piapi.ai/api/v1/task",
@@ -71,8 +64,8 @@
         "name": "Image-to-Video",
         "type": "n8n-nodes-base.httpRequest",
         "position": [
-          -420,
-          560
+          520,
+          1000
         ],
         "parameters": {
           "url": "https://api.piapi.ai/api/v1/task",
@@ -99,8 +92,8 @@
         "name": "Get Video",
         "type": "n8n-nodes-base.httpRequest",
         "position": [
-          -160,
-          560
+          780,
+          1000
         ],
         "parameters": {
           "url": "=https://api.piapi.ai/api/v1/task/{{ $json.data.task_id }}",
@@ -122,8 +115,8 @@
         "name": "List Elements",
         "type": "n8n-nodes-base.code",
         "position": [
-          460,
-          600
+          1400,
+          1040
         ],
         "parameters": {
           "jsCode": "return [\n  {\n    scene_titles: items.map(item => item.json.response.text),\n    video_urls: items.map(item => item.json.data.output.video_url),\n    input_tokens: $('Calculate Token Usage').first().json.total_prompt_tokens,\n    output_tokens: $('Calculate Token Usage').first().json.total_completion_tokens,\n    model: $('Generate Image Prompts').first().json.model\n  }\n];"
@@ -135,8 +128,8 @@
         "name": "Wait 10min",
         "type": "n8n-nodes-base.wait",
         "position": [
-          -280,
-          560
+          660,
+          1000
         ],
         "webhookId": "1f9d716f-6544-4e4e-94ec-408ac3ea6e82",
         "parameters": {
@@ -150,8 +143,8 @@
         "name": "Wait 3min",
         "type": "n8n-nodes-base.wait",
         "position": [
-          80,
-          40
+          1020,
+          480
         ],
         "webhookId": "77cdee73-5e99-456a-b5e7-410b4d257669",
         "parameters": {
@@ -165,8 +158,8 @@
         "name": "Wait 5min",
         "type": "n8n-nodes-base.wait",
         "position": [
-          540,
-          -40
+          1480,
+          400
         ],
         "webhookId": "31d5b1a2-dbb5-4849-ae25-cb491539c16e",
         "parameters": {
@@ -179,8 +172,8 @@
         "name": "Generate voice",
         "type": "n8n-nodes-base.httpRequest",
         "position": [
-          -60,
-          1020
+          880,
+          1460
         ],
         "parameters": {
           "url": "https://api.elevenlabs.io/v1/text-to-speech/onwK4e9ZLuTAKqWW03F9",
@@ -213,8 +206,8 @@
         "name": "List Elements1",
         "type": "n8n-nodes-base.code",
         "position": [
-          460,
-          820
+          1400,
+          1260
         ],
         "parameters": {
           "jsCode": "return [\n  {\n    sound_urls: items.map(item => $('Upload Voice Audio').first().json.webContentLink)\n  }\n];"
@@ -226,8 +219,8 @@
         "name": "Fail check",
         "type": "n8n-nodes-base.if",
         "position": [
-          -20,
-          560
+          920,
+          1000
         ],
         "parameters": {
           "options": {},
@@ -260,8 +253,8 @@
         "name": "Wait to retry",
         "type": "n8n-nodes-base.wait",
         "position": [
-          120,
-          520
+          1060,
+          960
         ],
         "webhookId": "3b0fae8f-4419-45cd-8380-8f72eca05ff8",
         "parameters": {
@@ -274,8 +267,8 @@
         "name": "Generate Image Prompts",
         "type": "@n8n/n8n-nodes-langchain.openAi",
         "position": [
-          -540,
-          120
+          400,
+          560
         ],
         "parameters": {
           "modelId": {
@@ -294,12 +287,6 @@
           },
           "simplify": false
         },
-        "credentials": {
-          "openAiApi": {
-            "id": "UqJ11kHhHtyzaDWx",
-            "name": "OpenAi account"
-          }
-        },
         "typeVersion": 1.8
       },
       {
@@ -307,8 +294,8 @@
         "name": "Calculate Token Usage",
         "type": "n8n-nodes-base.code",
         "position": [
-          -240,
-          120
+          700,
+          560
         ],
         "parameters": {
           "jsCode": "// Get all input items (the 5 LLM responses)\nconst items = $input.all();\n\n// Calculate total prompt tokens and total completion tokens\nconst totalPromptTokens = items.reduce((sum, item) => sum + item.json.usage.prompt_tokens, 0);\nconst totalCompletionTokens = items.reduce((sum, item) => sum + item.json.usage.completion_tokens, 0);\n\n// Create new items with original data plus the totals\nconst outputItems = items.map(item => ({\n  json: {\n    ...item.json,                   // Spread the original item data\n    total_prompt_tokens: totalPromptTokens,     // Add total prompt tokens\n    total_completion_tokens: totalCompletionTokens // Add total completion tokens\n  }\n}));\n\n// Return the modified items\nreturn outputItems;"
@@ -320,8 +307,8 @@
         "name": "Check for failures",
         "type": "n8n-nodes-base.if",
         "position": [
-          360,
-          40
+          1300,
+          480
         ],
         "parameters": {
           "options": {},
@@ -354,8 +341,8 @@
         "name": "Sticky Note1",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          -560,
-          -200
+          380,
+          240
         ],
         "parameters": {
           "color": 5,
@@ -370,8 +357,8 @@
         "name": "Sticky Note",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          -460,
-          280
+          480,
+          720
         ],
         "parameters": {
           "color": 6,
@@ -386,8 +373,8 @@
         "name": "Generate Video Captions",
         "type": "@n8n/n8n-nodes-langchain.openAi",
         "position": [
-          -980,
-          780
+          -40,
+          1220
         ],
         "parameters": {
           "modelId": {
@@ -410,12 +397,6 @@
           },
           "simplify": false
         },
-        "credentials": {
-          "openAiApi": {
-            "id": "UqJ11kHhHtyzaDWx",
-            "name": "OpenAi account"
-          }
-        },
         "typeVersion": 1.8
       },
       {
@@ -423,8 +404,8 @@
         "name": "Sticky Note2",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          -460,
-          800
+          480,
+          1240
         ],
         "parameters": {
           "color": 4,
@@ -439,8 +420,8 @@
         "name": "Match captions with videos",
         "type": "n8n-nodes-base.merge",
         "position": [
-          300,
-          600
+          1240,
+          1040
         ],
         "parameters": {
           "mode": "combine",
@@ -454,8 +435,8 @@
         "name": "Generate Script",
         "type": "@n8n/n8n-nodes-langchain.openAi",
         "position": [
-          -420,
-          1020
+          520,
+          1460
         ],
         "parameters": {
           "modelId": {
@@ -478,12 +459,6 @@
           },
           "simplify": false
         },
-        "credentials": {
-          "openAiApi": {
-            "id": "UqJ11kHhHtyzaDWx",
-            "name": "OpenAi account"
-          }
-        },
         "executeOnce": true,
         "typeVersion": 1.8
       },
@@ -492,8 +467,8 @@
         "name": "Upload Voice Audio",
         "type": "n8n-nodes-base.googleDrive",
         "position": [
-          140,
-          1020
+          1080,
+          1460
         ],
         "parameters": {
           "name": "={{ $('Load Google Sheet').item.json.id }}-voiceover.mp3",
@@ -511,12 +486,6 @@
             "cachedResultName": "Resume Studio"
           }
         },
-        "credentials": {
-          "googleDriveOAuth2Api": {
-            "id": "ZvDuyVfbZJbDJXcS",
-            "name": "Google Drive account"
-          }
-        },
         "typeVersion": 3
       },
       {
@@ -524,8 +493,8 @@
         "name": "Set Access Permissions",
         "type": "n8n-nodes-base.googleDrive",
         "position": [
-          320,
-          1020
+          1260,
+          1460
         ],
         "parameters": {
           "fileId": {
@@ -543,12 +512,6 @@
             }
           }
         },
-        "credentials": {
-          "googleDriveOAuth2Api": {
-            "id": "ZvDuyVfbZJbDJXcS",
-            "name": "Google Drive account"
-          }
-        },
         "typeVersion": 3
       },
       {
@@ -556,8 +519,8 @@
         "name": "Pair Videos with Audio",
         "type": "n8n-nodes-base.merge",
         "position": [
-          680,
-          700
+          1620,
+          1140
         ],
         "parameters": {
           "mode": "combine",
@@ -571,8 +534,8 @@
         "name": "Render Final Video",
         "type": "n8n-nodes-base.httpRequest",
         "position": [
-          860,
-          700
+          1800,
+          1140
         ],
         "parameters": {
           "url": "https://api.creatomate.com/v1/renders",
@@ -604,20 +567,14 @@
         "name": "Notify me on Discord",
         "type": "n8n-nodes-base.discord",
         "position": [
-          1840,
-          700
+          2780,
+          1140
         ],
         "webhookId": "1541bc50-06e4-48e8-8c76-23850ee4edf6",
         "parameters": {
           "content": "=A new Resume Studio POV video has been created: {{ $json.final_output }}",
           "options": {},
           "authentication": "webhook"
-        },
-        "credentials": {
-          "discordWebhookApi": {
-            "id": "rd9P3JURnEdrsFAZ",
-            "name": "Discord Webhook account"
-          }
         },
         "typeVersion": 2
       },
@@ -626,8 +583,8 @@
         "name": "Once Per Day",
         "type": "n8n-nodes-base.scheduleTrigger",
         "position": [
-          -1540,
-          780
+          -600,
+          1220
         ],
         "parameters": {
           "rule": {
@@ -645,8 +602,8 @@
         "name": "Load Google Sheet",
         "type": "n8n-nodes-base.googleSheets",
         "position": [
-          -1120,
-          780
+          -180,
+          1220
         ],
         "parameters": {
           "options": {
@@ -675,12 +632,6 @@
             "cachedResultName": "Sheet Template"
           }
         },
-        "credentials": {
-          "googleSheetsOAuth2Api": {
-            "id": "CkBO4U0JY0QvkimY",
-            "name": "Google Sheets account"
-          }
-        },
         "typeVersion": 4.5,
         "alwaysOutputData": true
       },
@@ -689,8 +640,8 @@
         "name": "Create List",
         "type": "n8n-nodes-base.code",
         "position": [
-          -660,
-          700
+          280,
+          1140
         ],
         "parameters": {
           "jsCode": "// Get the text directly from the OpenAI response\nconst text = $input.first().json.choices[0].message.content;\n\n// Split the text on literal '\\\\n', trim, and filter empty lines\nconst lines = text.split('\\\\n').map(line => line.trim()).filter(line => line !== '');\n\n// Create an array of items for n8n\nconst items = lines.map(line => ({\n  json: {\n    response: { text: line }\n  }\n}));\n\n// Return the array of items\nreturn items;"
@@ -702,8 +653,8 @@
         "name": "Sticky Note3",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          620,
-          480
+          1560,
+          920
         ],
         "parameters": {
           "color": 3,
@@ -718,8 +669,8 @@
         "name": "Sticky Note4",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          -1260,
-          -160
+          -320,
+          280
         ],
         "parameters": {
           "width": 620,
@@ -733,8 +684,8 @@
         "name": "Sticky Note5",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          -1420,
-          340
+          -480,
+          780
         ],
         "parameters": {
           "color": 7,
@@ -749,8 +700,8 @@
         "name": "Wait1",
         "type": "n8n-nodes-base.wait",
         "position": [
-          980,
-          700
+          1920,
+          1140
         ],
         "webhookId": "206d0cdf-b71f-44a7-909f-97df885c471a",
         "parameters": {
@@ -764,8 +715,8 @@
         "name": "Get Final Video",
         "type": "n8n-nodes-base.httpRequest",
         "position": [
-          1100,
-          700
+          2040,
+          1140
         ],
         "parameters": {
           "url": "=https://api.creatomate.com/v1/renders/{{ $('Render Final Video').item.json.id }}",
@@ -792,8 +743,8 @@
         "name": "Upload Final Video",
         "type": "n8n-nodes-base.googleDrive",
         "position": [
-          1360,
-          700
+          2300,
+          1140
         ],
         "parameters": {
           "name": "=POV-{{ $('Render Final Video').item.json.id }}.mp4",
@@ -813,7 +764,7 @@
         },
         "credentials": {
           "googleDriveOAuth2Api": {
-            "id": "ZvDuyVfbZJbDJXcS",
+            "id": "2TbhWtnbRfSloGxX",
             "name": "Google Drive account"
           }
         },
@@ -824,8 +775,8 @@
         "name": "Get Raw File",
         "type": "n8n-nodes-base.httpRequest",
         "position": [
-          1220,
-          700
+          2160,
+          1140
         ],
         "parameters": {
           "url": "={{ $json.url }}",
@@ -844,8 +795,8 @@
         "name": "Set Permissions",
         "type": "n8n-nodes-base.googleDrive",
         "position": [
-          1500,
-          700
+          2440,
+          1140
         ],
         "parameters": {
           "fileId": {
@@ -865,7 +816,7 @@
         },
         "credentials": {
           "googleDriveOAuth2Api": {
-            "id": "ZvDuyVfbZJbDJXcS",
+            "id": "2TbhWtnbRfSloGxX",
             "name": "Google Drive account"
           }
         },
@@ -876,8 +827,8 @@
         "name": "Update Google Sheet",
         "type": "n8n-nodes-base.googleSheets",
         "position": [
-          1660,
-          700
+          2600,
+          1140
         ],
         "parameters": {
           "columns": {
@@ -1231,7 +1182,7 @@
         },
         "credentials": {
           "googleSheetsOAuth2Api": {
-            "id": "CkBO4U0JY0QvkimY",
+            "id": "3IOU2VjBnR4hGohx",
             "name": "Google Sheets account"
           }
         },
@@ -1243,8 +1194,8 @@
         "type": "n8n-nodes-base.set",
         "notes": "SET BEFORE STARTING",
         "position": [
-          -1320,
-          780
+          -380,
+          1220
         ],
         "parameters": {
           "options": {},
@@ -1285,8 +1236,8 @@
         "name": "Sticky Note6",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          -1380,
-          720
+          -440,
+          1160
         ],
         "parameters": {
           "color": 3,
@@ -1301,8 +1252,8 @@
         "name": "Validate list formatting",
         "type": "n8n-nodes-base.if",
         "position": [
-          -660,
-          840
+          280,
+          1280
         ],
         "parameters": {
           "options": {},
@@ -1329,16 +1280,366 @@
           }
         },
         "typeVersion": 2.2
+      },
+      {
+        "id": "98a3761e-544a-473c-aa7f-cc14390750d8",
+        "name": "Get Audio from Video",
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "notes": "Extract the audio from video for generate the description",
+        "position": [
+          3820,
+          1360
+        ],
+        "parameters": {
+          "options": {},
+          "resource": "audio",
+          "operation": "transcribe"
+        },
+        "credentials": {
+          "openAiApi": {
+            "id": "XJdxgMSXFgwReSsh",
+            "name": "n8n key"
+          }
+        },
+        "notesInFlow": true,
+        "retryOnFail": true,
+        "typeVersion": 1,
+        "waitBetweenTries": 5000
+      },
+      {
+        "id": "ec498643-1ef1-42e5-90ee-ec49d0e2b63b",
+        "name": "Generate Description for Videos  in Tiktok and Instagram",
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "notes": "Request to OpenAi for generate description with the audio extracted from the video",
+        "position": [
+          4060,
+          1360
+        ],
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "mode": "list",
+            "value": "gpt-4o",
+            "cachedResultName": "GPT-4O"
+          },
+          "options": {},
+          "messages": {
+            "values": [
+              {
+                "role": "system",
+                "content": "You are an expert assistant in creating engaging social media video titles."
+              },
+              {
+                "content": "=I'm going to upload a video to social media. Here are some examples of descriptions that have worked well on Instagram:\n\nFollow and save for later. Discover InfluencersDe, the AI tool that automates TikTok creation and publishing to drive traffic to your website. Perfect for entrepreneurs and brands.\n#digitalmarketing #ugc #tiktok #ai #influencersde #contentcreation\n\nDiscover the video marketing revolution with InfluencersDe!\n.\n.\n.\n#socialmedia #videomarketing #ai #tiktok #influencersde #growthhacking\n\nDon't miss InfluencersDe, the tool that transforms your marketing strategy with just one click!\n.\n.\n.\n#ugc #ai #tiktok #digitalmarketing #influencersde #branding\n\nCan you create another title for the Instagram post based on this recognized audio from the video?\n\nAudio: {{ $('Get Audio from Video').item.json.text }}\n\nIMPORTANT: Reply only with the description, don't add anything else."
+              }
+            ]
+          }
+        },
+        "credentials": {
+          "openAiApi": {
+            "id": "XJdxgMSXFgwReSsh",
+            "name": "n8n key"
+          }
+        },
+        "notesInFlow": true,
+        "retryOnFail": true,
+        "typeVersion": 1.4,
+        "waitBetweenTries": 5000
+      },
+      {
+        "id": "2f9f753d-86f3-4489-9dd2-a691f2da80ba",
+        "name": "Upload Video and Description to Tiktok",
+        "type": "n8n-nodes-base.httpRequest",
+        "notes": "Generate in upload-post.com the token and add to the credentials in the header-> Authorization: Apikey (token here)",
+        "position": [
+          4880,
+          940
+        ],
+        "parameters": {
+          "url": "https://api.upload-post.com/api/upload",
+          "method": "POST",
+          "options": {},
+          "sendBody": true,
+          "contentType": "multipart-form-data",
+          "authentication": "genericCredentialType",
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "title",
+                "value": "={{ $('Generate Description for Videos  in Tiktok and Instagram').item.json.message.content.replaceAll(\"\\\"\", \"\") }}"
+              },
+              {
+                "name": "platform[]",
+                "value": "tiktok"
+              },
+              {
+                "name": "video",
+                "parameterType": "formBinaryData",
+                "inputDataFieldName": "data"
+              },
+              {
+                "name": "user",
+                "value": "Add user generated in upload-post"
+              }
+            ]
+          },
+          "genericAuthType": "httpHeaderAuth"
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "WNjAx7UqrEZ1JDrR",
+            "name": "VituManco"
+          }
+        },
+        "notesInFlow": true,
+        "typeVersion": 4.2
+      },
+      {
+        "id": "4f007ef7-3f0a-4b4d-8dca-96028f29dd0c",
+        "name": "Upload Video and Description to Instagram",
+        "type": "n8n-nodes-base.httpRequest",
+        "notes": "Generate in upload-post.com the token and add to the credentials in the header-> Authorization: Apikey (token here)",
+        "position": [
+          4880,
+          1140
+        ],
+        "parameters": {
+          "url": "https://api.upload-post.com/api/upload",
+          "method": "POST",
+          "options": {},
+          "sendBody": true,
+          "contentType": "multipart-form-data",
+          "authentication": "genericCredentialType",
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "title",
+                "value": "={{ $('Generate Description for Videos  in Tiktok and Instagram').item.json.message.content.replaceAll(\"\\\"\", \"\") }}"
+              },
+              {
+                "name": "platform[]",
+                "value": "instagram"
+              },
+              {
+                "name": "video",
+                "parameterType": "formBinaryData",
+                "inputDataFieldName": "data"
+              },
+              {
+                "name": "user",
+                "value": "Add user generated in upload-post"
+              }
+            ]
+          },
+          "genericAuthType": "httpHeaderAuth"
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "47dO31ED0WIaJkR6",
+            "name": "Header Auth account"
+          }
+        },
+        "notesInFlow": true,
+        "typeVersion": 4.2
+      },
+      {
+        "id": "3805750b-65c4-4f28-b811-967681eda0ff",
+        "name": "Upload Video and Description to Youtube",
+        "type": "n8n-nodes-base.httpRequest",
+        "notes": "Generate in upload-post.com the token and add to the credentials in the header-> Authorization: Apikey (token here)",
+        "position": [
+          4880,
+          1360
+        ],
+        "parameters": {
+          "url": "https://api.upload-post.com/api/upload",
+          "method": "POST",
+          "options": {},
+          "sendBody": true,
+          "contentType": "multipart-form-data",
+          "authentication": "genericCredentialType",
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "title",
+                "value": "={{ $('Generate Description for Videos  in Tiktok and Instagram').item.json.message.content.replaceAll(\"\\\"\", \"\").substring(0, 70) }}\n"
+              },
+              {
+                "name": "platform[]",
+                "value": "youtube"
+              },
+              {
+                "name": "video",
+                "parameterType": "formBinaryData",
+                "inputDataFieldName": "data"
+              },
+              {
+                "name": "user",
+                "value": "Add user generated in upload-post"
+              }
+            ]
+          },
+          "genericAuthType": "httpHeaderAuth"
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "47dO31ED0WIaJkR6",
+            "name": "Header Auth account"
+          }
+        },
+        "notesInFlow": true,
+        "typeVersion": 4.2
+      },
+      {
+        "id": "754e3f54-87cd-4b50-947e-a9b20ce2d2ab",
+        "name": "Upload Video and Description to Facebook",
+        "type": "n8n-nodes-base.httpRequest",
+        "notes": "Generate in upload-post.com the token and add to the credentials in the header-> Authorization: Apikey (token here)",
+        "position": [
+          4880,
+          1600
+        ],
+        "parameters": {
+          "url": "https://api.upload-post.com/api/upload",
+          "method": "POST",
+          "options": {},
+          "sendBody": true,
+          "contentType": "multipart-form-data",
+          "authentication": "genericCredentialType",
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "title",
+                "value": "={{ $('Generate Description for Videos  in Tiktok and Instagram').item.json.message.content.replaceAll(\"\\\"\", \"\") }}"
+              },
+              {
+                "name": "platform[]",
+                "value": "facebook"
+              },
+              {
+                "name": "video",
+                "parameterType": "formBinaryData",
+                "inputDataFieldName": "data"
+              },
+              {
+                "name": "user",
+                "value": "Add user generated in upload-post"
+              },
+              {
+                "name": "facebook_page_id",
+                "value": "61556896550301"
+              }
+            ]
+          },
+          "genericAuthType": "httpHeaderAuth"
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "47dO31ED0WIaJkR6",
+            "name": "Header Auth account"
+          }
+        },
+        "notesInFlow": true,
+        "typeVersion": 4.2
+      },
+      {
+        "id": "4090c098-2381-4e57-8e53-d24a2bed57cd",
+        "name": "Upload Video and Description to Linkedin",
+        "type": "n8n-nodes-base.httpRequest",
+        "notes": "Generate in upload-post.com the token and add to the credentials in the header-> Authorization: Apikey (token here)",
+        "position": [
+          4880,
+          1840
+        ],
+        "parameters": {
+          "url": "https://api.upload-post.com/api/upload",
+          "method": "POST",
+          "options": {},
+          "sendBody": true,
+          "contentType": "multipart-form-data",
+          "authentication": "genericCredentialType",
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "title",
+                "value": "={{ $('Generate Description for Videos  in Tiktok and Instagram').item.json.message.content.replaceAll(\"\\\"\", \"\") }}"
+              },
+              {
+                "name": "platform[]",
+                "value": "linkedin"
+              },
+              {
+                "name": "video",
+                "parameterType": "formBinaryData",
+                "inputDataFieldName": "data"
+              },
+              {
+                "name": "user",
+                "value": "Add user generated in upload-post"
+              }
+            ]
+          },
+          "genericAuthType": "httpHeaderAuth"
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "47dO31ED0WIaJkR6",
+            "name": "Header Auth account"
+          }
+        },
+        "notesInFlow": true,
+        "typeVersion": 4.2
+      },
+      {
+        "id": "cd9fbbf5-262e-43bc-9c09-382516de1cca",
+        "name": "Sticky Note7",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2940,
+          920
+        ],
+        "parameters": {
+          "width": 2480,
+          "height": 1160,
+          "content": "## 6. Upload to all social networks with upload-post.com\n### (premium plan 15$ | Free trial credits available)\n\n\n\nThis automation will automatically create descriptions from videos and upload it to Instagram, TikTok, Youtube, Facebook and Linkedin.\n\n## How to Use\n1. Generate an API token at upload-post.com and add to Upload to Tiktok and Upload to Instagram nodes etc\n2. Customize the OpenAI prompt for your specific use case\n3. Optional: Configure Telegram for error notifications\n\n## Requirements\n- upload-post.com account\n- OpenAI API key\n"
+        },
+        "typeVersion": 1
+      },
+      {
+        "id": "f3524df6-484b-40e6-a9a3-f4d2211f3988",
+        "name": "Read Video from Google Drive",
+        "type": "n8n-nodes-base.readBinaryFile",
+        "position": [
+          4420,
+          1360
+        ],
+        "parameters": {
+          "filePath": "={{ $('Write video').item.json.originalFilename.replaceAll(\" \", \"_\") }}",
+          "dataPropertyName": "datavideo"
+        },
+        "typeVersion": 1
+      },
+      {
+        "id": "f082675c-1682-4679-88df-ae410e323f5b",
+        "name": "Write video",
+        "type": "n8n-nodes-base.writeBinaryFile",
+        "position": [
+          3440,
+          1360
+        ],
+        "parameters": {
+          "options": {},
+          "fileName": "={{ $json.originalFilename.replaceAll(\" \", \"_\") }}"
+        },
+        "typeVersion": 1
       }
     ],
     "active": false,
     "pinData": {},
     "settings": {
-      "timezone": "America/Los_Angeles",
-      "callerPolicy": "workflowsFromSameOwner",
       "executionOrder": "v1"
     },
-    "versionId": "3c7215ae-325c-49e5-865d-78eba07c625c",
+    "versionId": "8f78312c-a5e3-48f0-a386-e1251586a6e7",
     "connections": {
       "Wait1": {
         "main": [
@@ -1435,11 +1736,27 @@
           ]
         ]
       },
+      "Write video": {
+        "main": [
+          [
+            {
+              "node": "Get Audio from Video",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
       "Get Raw File": {
         "main": [
           [
             {
               "node": "Upload Final Video",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Write video",
               "type": "main",
               "index": 0
             }
@@ -1640,6 +1957,22 @@
           ]
         ]
       },
+      "Get Audio from Video": {
+        "main": [
+          [
+            {
+              "node": "Generate Description for Videos  in Tiktok and Instagram",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Notify me on Discord": {
+        "main": [
+          []
+        ]
+      },
       "Calculate Token Usage": {
         "main": [
           [
@@ -1728,6 +2061,48 @@
           [
             {
               "node": "List Elements",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Read Video from Google Drive": {
+        "main": [
+          [
+            {
+              "node": "Upload Video and Description to Tiktok",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Upload Video and Description to Instagram",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Upload Video and Description to Youtube",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Upload Video and Description to Facebook",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Upload Video and Description to Linkedin",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate Description for Videos  in Tiktok and Instagram": {
+        "main": [
+          [
+            {
+              "node": "Read Video from Google Drive",
               "type": "main",
               "index": 0
             }
